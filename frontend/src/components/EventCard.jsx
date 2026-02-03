@@ -7,7 +7,6 @@ const EventCard = ({ event }) => {
   return (
     <>
       <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group">
-        {/* Image Container */}
         <div className="relative overflow-hidden h-56 bg-gradient-to-br from-indigo-100 to-purple-100">
           {event.imageUrl ? (
             <img
@@ -33,7 +32,6 @@ const EventCard = ({ event }) => {
             {event.title}
           </h3>
 
-          {/* Description */}
           {event.description && event.description.trim() && (
             <div className="mb-4 pb-4 border-b border-gray-100">
               <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
@@ -51,24 +49,19 @@ const EventCard = ({ event }) => {
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">Date</p>
                 <p className="text-sm font-medium text-gray-700">
                   {(() => {
-                    // Try multiple ways to parse the date
                     let date = null;
                     
                     if (event.dateTime) {
                       try {
-                        // If it's already a Date object
                         if (event.dateTime instanceof Date) {
                           date = event.dateTime;
                         } 
-                        // If it's a string (ISO format or other)
                         else if (typeof event.dateTime === 'string') {
                           date = new Date(event.dateTime);
                         }
-                        // If it's an object with $date (MongoDB format)
                         else if (event.dateTime.$date) {
                           date = new Date(event.dateTime.$date);
                         }
-                        // If it's a timestamp
                         else if (typeof event.dateTime === 'number') {
                           date = new Date(event.dateTime);
                         }
@@ -84,15 +77,12 @@ const EventCard = ({ event }) => {
                       }
                     }
                     
-                    // Fallback 1: Use dateText if available (raw date string from scraper)
                     if (event.dateText && event.dateText.trim()) {
-                      // Clean up the dateText - extract just the date part
                       const cleanDateText = event.dateText
                         .replace(/\n/g, ' ')
                         .replace(/\s+/g, ' ')
                         .trim();
                       
-                      // Try to extract common date patterns
                       const datePatterns = [
                         /(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*,?\s+\d{1,2}:?\d{0,2}\s*(am|pm)/i,
                         /(Mon|Tue|Wed|Thu|Fri|Sat|Sun)day\s+at\s+\d{1,2}:?\d{0,2}\s*(am|pm)/i,
@@ -106,11 +96,9 @@ const EventCard = ({ event }) => {
                         }
                       }
                       
-                      // If no pattern matches, return first 50 chars of dateText
                       return cleanDateText.substring(0, 50);
                     }
                     
-                    // Fallback 2: Try to extract date from title if it contains date info
                     if (event.title) {
                       const dateMatch = event.title.match(/(\d{1,2}(st|nd|rd|th)?\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{4})/i);
                       if (dateMatch) {
@@ -133,7 +121,6 @@ const EventCard = ({ event }) => {
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">Venue</p>
                 <p className="text-sm font-medium text-gray-700">
                   {(() => {
-                    // Check venueName first
                     if (event.venueName && event.venueName.trim() && 
                         event.venueName !== "TBD" && 
                         event.venueName !== "TBA" &&
@@ -141,14 +128,11 @@ const EventCard = ({ event }) => {
                       return event.venueName;
                     }
                     
-                    // Fallback to venueAddress if venueName is not available
                     if (event.venueAddress && event.venueAddress.trim()) {
                       return event.venueAddress;
                     }
                     
-                    // Fallback: Try to extract venue from title or description
                     if (event.title) {
-                      // Look for common venue patterns in title
                       const venuePatterns = [
                         /at\s+([A-Z][a-zA-Z\s&]+?)(?:\s+-\s+|$|,)/,
                         /@\s+([A-Z][a-zA-Z\s&]+?)(?:\s+-\s+|$|,)/,
