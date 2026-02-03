@@ -12,9 +12,13 @@ require("./src/auth/passport");
 const app = express();
 
 //Middlewares
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',') 
+  : ["http://localhost:3000"];
+
 app.use(
   cors({
-    origin: ["http://localhost:3000"], // Allow both frontend ports
+    origin: allowedOrigins, // Allow frontend URLs (comma-separated for multiple)
     credentials: true, // 🔥 REQUIRED for cookies
   })
 );
@@ -27,7 +31,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // true ONLY in production (https)
+      secure: process.env.NODE_ENV === 'production', // true in production (https)
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     },
   })
 );
@@ -51,6 +56,8 @@ app.use("/api/email-capture", require("./src/routes/emailcapture")); // Add this
 app.use("/auth", require("./src/routes/auth.routes"));
 app.use("/api/dashboard", require("./src/routes/dashboard.routes"));
 
-app.listen(5000, function(){
-    console.log('Server is running on port 5000');
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, function(){
+    console.log(`Server is running on port ${PORT}`);
 })
