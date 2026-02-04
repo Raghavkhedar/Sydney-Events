@@ -18,7 +18,9 @@ const allowedOrigins = process.env.FRONTEND_URL
 
 app.use(
   cors({
-    origin: allowedOrigins, // Allow frontend URLs (comma-separated for multiple)
+    // origin: allowedOrigins, // Allow frontend URLs (comma-separated for multiple)
+    origin: "https://sydney-events-frontend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // 🔥 REQUIRED for cookies
   })
 );
