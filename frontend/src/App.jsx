@@ -1,17 +1,3 @@
-// import { useState } from 'react'
-
-// function App() {
-  
-//   return (
-  //     <>
-  
-  //     </>
-  //   )
-  // }
-  
-  // export default App
-  
-  
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Events from "./pages/Events";
