@@ -1,7 +1,10 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  // Prefer env var in production, fall back to your Render backend URL
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    "https://sydney-events-backend-26jx.onrender.com/api",
 });
 
 export const fetchEvents = async (page = 1) => {

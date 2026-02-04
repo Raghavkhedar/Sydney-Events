@@ -32,13 +32,65 @@ const EventCard = ({ event }) => {
             {event.title}
           </h3>
 
-          {event.description && event.description.trim() && (
-            <div className="mb-4 pb-4 border-b border-gray-100">
-              <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
-                {event.description}
-              </p>
-            </div>
-          )}
+          {(() => {
+            const rawDescription = event.description && event.description.trim();
+
+            // If the "description" is actually just a date string (like "Sat, 14 Feb, 12:00 pm"),
+            // don't show it as description to avoid duplicating the date section below.
+            const dateLikePattern =
+              /(Mon|Tue|Wed|Thu|Fri|Sat|Sun),?\s+\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*,?\s+\d{1,2}:?\d{0,2}\s*(am|pm)/i;
+
+            const hasNonDateDescription =
+              rawDescription &&
+              !dateLikePattern.test(rawDescription) &&
+              !(event.dateText && rawDescription === event.dateText.trim());
+
+            const descriptionText = hasNonDateDescription ? rawDescription : null;
+
+            // Work out a nice label for the source website
+            let sourceLabel = null;
+            if (event.sourceName && event.sourceName.trim()) {
+              sourceLabel = event.sourceName.trim();
+            } else if (event.sourceUrl) {
+              try {
+                const url = new URL(event.sourceUrl);
+                sourceLabel = url.hostname.replace(/^www\./i, "");
+              } catch {
+                sourceLabel = event.sourceUrl;
+              }
+            }
+
+            // If we have neither description nor source info, don't render the block
+            if (!descriptionText && !sourceLabel) return null;
+
+            return (
+              <div className="mb-4 pb-4 border-b border-gray-100">
+                {descriptionText && (
+                  <p className="text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                    {descriptionText}
+                  </p>
+                )}
+
+                {sourceLabel && (
+                  <p className="mt-2 text-xs text-gray-400">
+                    Source:{" "}
+                    {event.sourceUrl ? (
+                      <a
+                        href={event.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:text-gray-500"
+                      >
+                        {sourceLabel}
+                      </a>
+                    ) : (
+                      sourceLabel
+                    )}
+                  </p>
+                )}
+              </div>
+            );
+          })()}
 
           <div className="space-y-3 mb-5">
             <div className="flex items-start gap-2">
