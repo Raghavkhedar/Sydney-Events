@@ -14,7 +14,7 @@ const app = express();
 //Middlewares
 const allowedOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(',') 
-  : ["http://localhost:3000"];
+  : ["https://sydney-events-frontend.onrender.com/"];
 
 app.use(
   cors({

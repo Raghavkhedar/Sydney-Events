@@ -9,14 +9,14 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: process.env.FRONTEND_URL || "http://localhost:3000/dashboard",
-    failureRedirect: (process.env.FRONTEND_URL || "http://localhost:3000") + "/login",
+    successRedirect: process.env.FRONTEND_URL || "https://sydney-events-frontend.onrender.com/dashboard",
+    failureRedirect: (process.env.FRONTEND_URL || "https://sydney-events-frontend.onrender.com/") + "/login",
   })
 );
 
 router.get("/logout", (req, res) => {
   req.logout(() => {
-    res.redirect(process.env.FRONTEND_URL || "http://localhost:3000");
+    res.redirect(process.env.FRONTEND_URL || "https://sydney-events-frontend.onrender.com/");
   });
 });
 

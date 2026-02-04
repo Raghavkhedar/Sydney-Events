@@ -81,7 +81,7 @@ const Dashboard = () => {
               View Events
             </Link>
             <a
-              href="http://localhost:3000/"
+              href="https://sydney-events-frontend.onrender.com/"
               className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
             >
               Logout
