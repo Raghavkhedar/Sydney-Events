@@ -1,6 +1,6 @@
 const GOOGLE_AUTH_URL =
   import.meta.env.VITE_GOOGLE_AUTH_URL ||
-  "https://sydney-events-backendd.onrender.com/auth/google";
+  "https://sydney-events-backend-26jx.onrender.com/auth/google";
 
 const Login = () => {
   return (

@@ -11,6 +11,9 @@ require("./src/auth/passport");
 
 const app = express();
 
+// Trust Render's proxy so secure cookies work correctly in production
+app.set('trust proxy', 1);
+
 //Middlewares
 const allowedOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(',') 
