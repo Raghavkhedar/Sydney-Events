@@ -12,7 +12,7 @@ const Dashboard = () => {
       try {
         setLoading(true);
         setError(null);
-        const res = await axios.get("http://localhost:5000/api/dashboard/events", {
+        const res = await axios.get("https://sydney-events-backendd.onrender.com/api/dashboard/events", {
           withCredentials: true,
         });
         setEvents(res.data);
@@ -36,7 +36,7 @@ const Dashboard = () => {
   const importEvent = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/dashboard/events/${id}/import`,
+        `https://sydney-events-backendd.onrender.com/api/dashboard/events/${id}/import`,
         {},
         { withCredentials: true }
       );
